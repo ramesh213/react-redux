@@ -1,12 +1,19 @@
 import React from 'react'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import { Link } from 'react-router-dom';
+import { deleteUser } from './UserReducer';
+
 
 
 function Home () {
 
 const users = useSelector((state) => state.users);
+const dispatch = useDispatch();
+
+const handleDelete = (id) => {
+    dispatch(deleteUser({id: id}));
+}
   return (
     <div className='container mt-4'>
         <h2>React redux crud app</h2>
@@ -27,8 +34,8 @@ const users = useSelector((state) => state.users);
                     <td>{users.name}</td>
                     <td>{users.email}</td>
                     <td>
-                        <button className='btn btn-small btn-primary'>Edit</button>
-                        <button className='btn btn-small btn-danger ms-2'>Delete</button>
+                        <Link to={`/edit/${users.id}`} className='btn btn-small btn-primary'>Edit</Link>
+                        <button onClick={() => handleDelete(users.id)} className='btn btn-small btn-danger ms-2'>Delete</button>
                     </td>
                    </tr>
                 ))}
